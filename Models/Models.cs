@@ -27,9 +27,11 @@ public class Item : HasId
 
 public class Finder : HasId {
     [Required]
+    public string Name {get; set;}
+    [Required]
     public int Id { get; set; }
     [Required]
-    public string AddressLine { get; set; }
+    public string Address { get; set; }
     [Required]
     public string City { get; set; }
     [Required]

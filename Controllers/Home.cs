@@ -33,7 +33,7 @@ public class HomeController : Controller
 
     [HttpGet("login")]
     [AllowAnonymous]
-    public IActionResult Login() => View("RegisterOrLogin");
+    public IActionResult Login() => View("Login");
 
     [HttpPost("login")]
     [AllowAnonymous]
@@ -46,6 +46,27 @@ public class HomeController : Controller
         ModelState.AddModelError(" ", result);
         return View("Login", user);
     }
+
+    [HttpGet("register")]
+    [AllowAnonymous]
+    public IActionResult Register() => View("Register");
+
+    [HttpPost("register")]
+    [AllowAnonymous]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register([FromForm] RegisterVM user){
+        var errors = await auth.Register(user.Email, user.Password);
+        if((errors ?? new List<string>()).Count() == 0) {
+            return Redirect("/");
+        } else {
+            foreach(var e in errors)
+                ModelState.AddModelError("", e);
+
+                return View("Register");
+        }
+    }
+
+
 }
 public class LoginVM {
     [Required]
@@ -55,7 +76,33 @@ public class LoginVM {
     [DataType(DataType.Password)]
     public string Password {get; set;}
 }
+public class RegisterVM {
+    [Required]
+    [DataType(DataType.EmailAddress)]
+    public string Email {get; set;}
+    [Required]
+    [DataType(DataType.Password)]
+    public string Password {get; set;}
+    [Required]
+    [DataType(DataType.Text)]
+    public string Name {get; set;}
+    [Required]
+    [DataType(DataType.Text)]
+    public string Address {get; set;}
+    [Required]
+    [DataType(DataType.Text)]
+    public string City {get; set;}
+    [Required]
+    [DataType(DataType.Text)]
+    public string State {get; set;}
+    [Required]
+    [DataType(DataType.PostalCode)]
+    public string ZIP {get; set;}
+    [Required]
+    [DataType(DataType.PhoneNumber)]
+    public string Phone {get; set;}
 
+}
     
     // Handle file uploads?
     // <form method="post" enctype="multipart/form-data">
