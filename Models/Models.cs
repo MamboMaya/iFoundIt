@@ -11,53 +11,60 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-public class Card : HasId
+public class Item : HasId
 {
     [Required]
     public int Id { get; set; }
     [Required]
-    public string Title { get; set; }
+    public string Description { get; set; }
     [Required]
-    [StringLength(250, MinimumLength = 10)]
-    public string Text { get; set; }
-
-    public int CardListId {get;set;}
+    [StringLength(100, MinimumLength = 5)]
+    private string SecretDetails { get; set; }
+    public int FinderId {get; set; } //foreign key
+    public Finder Finder {get; set;} //foreign key
+    public bool IsClaimed { get; set;}
 }
 
-public class CardList : HasId {
+public class Finder : HasId {
     [Required]
     public int Id { get; set; }
     [Required]
-    public string Summary { get; set; }
+    public string AddressLine { get; set; }
     [Required]
-    public List<Card> Cards { get; set; }
-
-    public int BoardId {get;set;}
+    public string City { get; set; }
+    [Required]
+    public string State { get; set; }
+    [Required]
+    public int ZIP { get; set; }
+    [Required]
+    public int Phone { get; set; }
+    [Required]
+    public string Email { get; set; }
+    public int ItemId { get; set; }
+    public List<Item> AllItems {get; set;} = new List<Item>();
+    public List<Item> UnclaimedItems {get; set;} //figure out how to add IsClaimed
+    public List<Item> ClaimedItems {get; set;}
 }
 
-public class Board : HasId {
+public class Loser {
     [Required]
     public int Id { get; set; }
-    [Required]
-    public string Title { get; set; }
-    [Required]
-    public List<CardList> Lists { get; set; }
 }
 
 // declare the DbSet<T>'s of our DB context, thus creating the tables
 public partial class DB : IdentityDbContext<IdentityUser> {
-    public DbSet<Card> Cards { get; set; }
-    public DbSet<CardList> CardLists { get; set; }
-    public DbSet<Board> Boards { get; set; }
+    public DbSet<Item> AllItems { get; set; }
+    public DbSet<Item> ClaimedItems { get; set; }
+    public DbSet<Item> UnclaimedItems { get; set; }
 }
 
 // create a Repo<T> services
 public partial class Handler {
     public void RegisterRepos(IServiceCollection services){
-        Repo<Card>.Register(services, "Cards");
-        Repo<CardList>.Register(services, "CardLists",
-            d => d.Include(l => l.Cards));
-        Repo<Board>.Register(services, "Boards",
-            d => d.Include(b => b.Lists).ThenInclude(l => l.Cards));
+        Repo<Item>.Register(services, "ClaimedItems",
+            d => d.Include(l => l.IsClaimed));
+        Repo<Item>.Register(services, "UnclaimedItems",
+            d => d.Include(b => !b.IsClaimed));
+        Repo<Item>.Register(services, "AllItems");
     }
 }

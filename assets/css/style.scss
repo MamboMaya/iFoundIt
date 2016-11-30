@@ -3,6 +3,7 @@
 
 *, *:before, *:after {
     box-sizing: border-box;
+    background-color: green;
 }
 
 .grid {
@@ -39,4 +40,5 @@
 
 body {
     color: red;
+    text-align: center;
 }

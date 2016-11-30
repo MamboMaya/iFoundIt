@@ -13,58 +13,69 @@ using System.Collections.Specialized;
 using System.IO;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 
 [Route("/")]
+[Authorize]
 public class HomeController : Controller
 {
-    private IRepository<Card> cards;
-    private IRepository<CardList> lists;
-    private IRepository<Board> boards;
-    public HomeController(IRepository<Card> cards, IRepository<CardList> lists, IRepository<Board> boards){
-        this.cards = cards;
-        this.lists = lists;
-        this.boards = boards;
+    public IAuthService auth;
+
+
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult Root() => View("Index");
+
+    [HttpGet("login")]
+    [AllowAnonymous]
+    public IActionResult Login() => View("RegisterOrLogin");
+
+    [HttpPost("login")]
+    [AllowAnonymous]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login([FromForm] LoginVM user){
+        string result = await auth.Login(user.Email, user.Password);
+        if(result == null) { 
+            return Redirect("/");
+        }
+        ModelState.AddModelError(" ", result);
+        return View("Login", user);
     }
+}
+public class LoginVM {
+    [Required]
+    [EmailAddress]
+    public string Email {get; set;}
+    [Required]
+    [DataType(DataType.Password)]
+    public string Password {get; set;}
+}
 
-    [HttpGet("/{username?}")]
-    [HttpGet("home/index/{username?}")]
-    public IActionResult Root(string username = "you")
-    {
-        // Console.WriteLine(HttpContext);
-        ViewData["Message"] = "Some extra info can be sent to the view";
-        ViewData["Username"] = username;
-        return View("Index"); // View(new Student) method takes an optional object as a "model", typically called a ViewModel
-    }
-
-    // [HttpGet("sql/cards")] // ?sql=....
-    // public IActionResult SqlCards([FromQuery]string sql) => Ok(cards.FromSql(sql));
-
-    // [HttpGet("sql/lists")] // ?sql=....
-    // public IActionResult SqlLists([FromQuery]string sql) => Ok(lists.FromSql(sql));
-
-    // [HttpGet("sql/boards")] // ?sql=....
-    // public IActionResult SqlBoards([FromQuery]string sql) => Ok(boards.FromSql(sql));
-
+    
     // Handle file uploads?
     // <form method="post" enctype="multipart/form-data">
     //     <input type="file" name="files" id="files" multiple />
     //     <input type="submit" value="submit" />
     // </form>
-    [HttpPost]
-    public async Task<IActionResult> Index(IList<IFormFile> files)
-    {
-        foreach (var file in files)
-        {
-            var fileName = ContentDispositionHeaderValue
-                .Parse(file.ContentDisposition)
-                .FileName
-                .Trim('"');// FileName returns "fileName.ext"(with double quotes) in beta 3
+    // [HttpPost]
+    // public async Task<IActionResult> Index(IList<IFormFile> files)
+    // {
+    //     foreach (var file in files)
+    //     {
+    //         var fileName = ContentDispositionHeaderValue
+    //             .Parse(file.ContentDisposition)
+    //             .FileName
+    //             .Trim('"');// FileName returns "fileName.ext"(with double quotes) in beta 3
 
-            if (fileName.EndsWith(".txt"))// Important for security if saving in webroot
-            {
-                // take file and store as Postgres Blob
-            }
-        }
-        return RedirectToAction("Index");
-    }
-}
+    //         if (fileName.EndsWith(".txt"))// Important for security if saving in webroot
+    //         {
+    //             // take file and store as Postgres Blob
+    //         }
+    //     }
+    //     return RedirectToAction("Index");
+    // }
