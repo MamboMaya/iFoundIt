@@ -1,0 +1,32 @@
+@model Finder
+
+<div>
+    <h3>Please create your new Finder account:</h3>
+</div>
+
+<hr>
+
+<form asp-controller="Home" asp-action="CreateFinder">
+
+    <label asp-for="Name"></label>
+    <input asp-for="Name">
+    
+    <label asp-for="Address"></label>
+    <input asp-for="Address">
+
+    <label asp-for="City"></label>
+    <input asp-for="City">
+
+    <label asp-for="State"></label>
+    <input asp-for="State">
+
+    <label asp-for="ZIP"></label>
+    <input asp-for="ZIP">
+
+    <label asp-for="Phone"></label>
+    <input asp-for="Phone">
+
+    <label asp-for="Email"></label>
+    <input asp-for="Email">
+    <button type="submit">Create!</button>
+</form>

@@ -1,0 +1,27 @@
+
+@model LoginVM
+@{
+    var a = ViewBag.Action ?? "Login";
+    var b = ViewBag.Action ?? "Register";
+}
+<div> 
+    <h3>Please login to your account:</h3>
+</div>
+
+<div asp-validation-summary="All"></div>
+
+<form asp-controller="Home" asp-action="Login">
+    <div><input asp-for="Email", placeholder="Email"></div>
+    <div><input asp-for="Password", placeholder="Password"></div>
+    <button type="submit"> Login </button>
+</form>
+
+<div>
+    <h3>Or if you're new around here, please register:</h3>
+</div>
+
+<form asp-controller="Home" asp-action="Register">
+    <div><input asp-for="Email", placeholder="johndoe@word.com"></div>
+    <div><input asp-for="Password", placeholder="Password123!"></div>
+    <button type="submit"> Register </button>
+</form>

@@ -1,0 +1,27 @@
+@model Finder
+
+<div><h4>Account Home:</h4></div>
+<hr>
+<h1>@Model.Name</h1>
+<h4>@Model.Address</h4>
+<h4>@Model.City</h4>
+<h4>@Model.State</h4>
+<h4>@Model.ZIP</h4>
+<h4>@Model.Phone</h4>
+<h4>@Model.Email</h4>
+
+@if(@Model.Items.Count()!=0) {
+    <ul>
+        @foreach(var m in @Model.Items){
+            <li>m.Description</li>
+        }
+    </ul>
+} else {
+    <p>@Model.Name does not have any lost items at the moment.</p>
+}
+
+<hr>
+
+<div asp-validation-summary="All"></div>
+
+<p>Contact @Model.Name to claim any of the listed items.</p>

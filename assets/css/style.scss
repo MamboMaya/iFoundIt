@@ -3,7 +3,7 @@
 
 *, *:before, *:after {
     box-sizing: border-box;
-    background-color: green;
+    background-color:lightgrey;
 }
 
 .grid {
@@ -39,6 +39,6 @@
 @mixin grid_r 6, 1000;
 
 body {
-    color: red;
+    color: darkslategrey;
     text-align: center;
 }

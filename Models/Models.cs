@@ -22,7 +22,7 @@ public class Item : HasId
     private string SecretDetails { get; set; }
     public int FinderId {get; set; } //foreign key
     public Finder Finder {get; set;} //foreign key
-    public bool IsClaimed { get; set;}
+    public bool IsNotClaimed { get; set;}
 }
 
 public class Finder : HasId {
@@ -43,9 +43,8 @@ public class Finder : HasId {
     [Required]
     public string Email { get; set; }
     public int ItemId { get; set; }
-    public List<Item> AllItems {get; set;} = new List<Item>();
-    public List<Item> UnclaimedItems {get; set;} //figure out how to add IsClaimed
-    public List<Item> ClaimedItems {get; set;}
+    public List<Item> Items {get; set;} = new List<Item>();
+    // public List<Item> ClaimedItems {get; set;}
 }
 
 public class Loser {
@@ -55,18 +54,18 @@ public class Loser {
 
 // declare the DbSet<T>'s of our DB context, thus creating the tables
 public partial class DB : IdentityDbContext<IdentityUser> {
-    public DbSet<Item> AllItems { get; set; }
-    public DbSet<Item> ClaimedItems { get; set; }
-    public DbSet<Item> UnclaimedItems { get; set; }
+    public DbSet<Item> Items { get; set; }
+    // public DbSet<Item> ClaimedItems { get; set; }
+    public DbSet<Finder> Finders { get; set; }
 }
 
 // create a Repo<T> services
 public partial class Handler {
     public void RegisterRepos(IServiceCollection services){
-        Repo<Item>.Register(services, "ClaimedItems",
-            d => d.Include(l => l.IsClaimed));
-        Repo<Item>.Register(services, "UnclaimedItems",
-            d => d.Include(b => !b.IsClaimed));
-        Repo<Item>.Register(services, "AllItems");
+        Repo<Item>.Register(services, "Items",
+            dbset => dbset.Include(x => x.IsNotClaimed));
+        // Repo<Item>.Register(services, "ClaimedItems",
+        //     d => d.Include(l => !l.IsNotClaimed));
+        Repo<Finder>.Register(services, "Finders");
     }
 }
