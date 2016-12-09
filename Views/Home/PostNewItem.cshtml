@@ -2,7 +2,7 @@
 
 
 <div>
-    <h4>Post a new item!</h4>
+    <h5>Post a new item!</h5>
         <p>Please add a vague description for the item in the following entry area. The idea is not to fully describe the item to the general public so only the rightful owner can identify and retrieve their lost item. Use fewer than 100 characters for this portion.
         </p>
 </div>
@@ -12,19 +12,17 @@
 
     <div>
         <label asp-for="Description" />
-        <input asp-for="Description" >
+        <input type="text" asp-for="Description" >
     </div>
 
 <div>
     <p>The following details can only be seen by the Finder. Feel free to be as descriptive as possible in order to ensure the right item is being identified.</p>
 </div>
-
     <div>
-        <label asp-for="Secret Details" />
-        <input asp-for="SecretDetails">
-    </div>
-
-    <input asp-for="FinderId" value="@Model.Finder.Id" hidden>
-
-    <button type="submit"> Post this item</button>
+        <input asp-for="FinderId" value="@Model.FinderId" hidden>
+        <input asp-for="Name" value="@Model.Finder" hidden>
+        <!--<label asp-for="SecretDetails" />-->
+        <!--<input asp-for="SecretDetails">-->
+    </div>    
+    <button type="submit"> Post!</button>
 </form>

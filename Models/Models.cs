@@ -17,12 +17,19 @@ public class Item : HasId
     public int Id { get; set; }
     [Required]
     public string Description { get; set; }
-    [Required]
+    // [Required]
     [StringLength(100, MinimumLength = 5)]
     private string SecretDetails { get; set; }
+    public DateTime FoundOn { get; set;} = new DateTime();
     public int FinderId {get; set; } //foreign key
     public Finder Finder {get; set;} //foreign key
     public bool IsNotClaimed { get; set;}
+    public string getSecret(IdentityUser u){
+        if(Finder.User.Id == u.Id) {
+            return SecretDetails;
+        }
+        return null;
+    }
 }
 
 public class Finder : HasId {
@@ -39,11 +46,12 @@ public class Finder : HasId {
     [Required]
     public int ZIP { get; set; }
     [Required]
-    public int Phone { get; set; }
+    public string Phone { get; set; }
     [Required]
     public string Email { get; set; }
     public int ItemId { get; set; }
     public List<Item> Items {get; set;} = new List<Item>();
+    public IdentityUser User {get;set;}
     // public List<Item> ClaimedItems {get; set;}
 }
 
@@ -60,12 +68,10 @@ public partial class DB : IdentityDbContext<IdentityUser> {
 }
 
 // create a Repo<T> services
-public partial class Handler {
+public partial class Handler {      
     public void RegisterRepos(IServiceCollection services){
-        Repo<Item>.Register(services, "Items",
-            dbset => dbset.Include(x => x.IsNotClaimed));
-        // Repo<Item>.Register(services, "ClaimedItems",
-        //     d => d.Include(l => !l.IsNotClaimed));
-        Repo<Finder>.Register(services, "Finders");
+        Repo<Finder>.Register(services, "Finders",
+            dbset => dbset.Include(x => x.Items));
+        Repo<Item>.Register(services, "Items");
     }
 }

@@ -25,10 +25,12 @@ public class HomeController : Controller
 {
     private DB db;
     private IRepository<Finder> finder;
+    private IRepository<Item> item;
     public IAuthService auth;
-    public HomeController(DB db, IRepository<Finder> finder, IAuthService auth){
+    public HomeController(DB db, IRepository<Finder> finder, IRepository<Item> item, IAuthService auth){
         this.db = db;
         this.finder = finder;
+        this.item = item;
         this.auth = auth;
     }
 
@@ -47,19 +49,22 @@ public class HomeController : Controller
     public async Task<IActionResult> Login([FromForm] LoginVM user){
         string result = await auth.Login(user.Email, user.Password);
         if(result == null) { 
-            return Redirect("/");
+            return Redirect("/finder/{id}");
         }
         ModelState.AddModelError(" ", result);
         return View("LoginOrRegister", user);
     }
+    [HttpGet("contact")]
+    [AllowAnonymous]
+    public IActionResult Contact() => View("Contact");
 
-    [HttpPost("register")]
+    [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromForm] LoginVM user){
         var errors = await auth.Register(user.Email, user.Password);
         if((errors ?? new List<string>()).Count() == 0) {
-            return Redirect("/");
+            return Redirect("/finder/new");
         } else {
             foreach(var e in errors)
                 ModelState.AddModelError("", e);
@@ -69,35 +74,32 @@ public class HomeController : Controller
     }
 
     [HttpGet("finder/new")]
-    [AllowAnonymous]
     public IActionResult CreateFinder() => View("CreateFinder");
 
     [HttpPost("finder/new")]
-    //[ValidateAntiForgeryToken] 
+    [ValidateAntiForgeryToken] 
     public IActionResult CreateFinder([FromForm] Finder finder){
         if(!ModelState.IsValid)
             return View("CreateFinder", finder);
 
             db.Finders.Add(finder);
             db.SaveChanges();
-            return Redirect("/");            
+            return Redirect("/finder/{id}");            
     }
     
     [HttpGet("finder/{id}")]
-    [AllowAnonymous]
     public async Task<IActionResult> Finder(int id){
-        Finder account = finder.Read(id);
-        if(account == null) return NotFound();
-        return View("Finder", account);
+        Finder item = finder.Read(id);
+        if(item == null) return NotFound();
+        return View("Finder", item);
     }
 
-    [HttpPost("finder/{id}/items")]
-    //[ValidateAntiForgeryToken]
+    [HttpPost("finder/{id}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> PostNewItem([FromForm] Item i, int id){
         i.Finder = null;
         string name = (await auth.GetUser(HttpContext))?.Email ?? "NOT PROVIDED";
         //i.Finder = new Finder {Name = name};       //THIS DOES NOT APPLY TO THIS PROJECT. THE FINDER IS POSTER
-
 
         TryValidateModel(i);
 
@@ -109,6 +111,18 @@ public class HomeController : Controller
         return Redirect($"/finder/{id}");
     }
 
+    [HttpGet("item/{id}")]
+    [AllowAnonymous]
+
+    public async Task<IActionResult> SingleItem(int id) {
+        var x = item.Read(id);
+        return View("SingleItem", x);
+    }
+
+    [HttpGet("search")]
+    [AllowAnonymous]
+
+    public IActionResult SearchScreen() => View("Search");
    
     [HttpPost("logout")]
     [ValidateAntiForgeryToken]

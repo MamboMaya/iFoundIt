@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20161208210348_FoundOn")]
+    partial class FoundOn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
@@ -236,7 +237,7 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("Item", b =>
                 {
-                    b.HasOne("Finder", "Name")
+                    b.HasOne("Finder", "Finder")
                         .WithMany("Items")
                         .HasForeignKey("FinderId")
                         .OnDelete(DeleteBehavior.Cascade);

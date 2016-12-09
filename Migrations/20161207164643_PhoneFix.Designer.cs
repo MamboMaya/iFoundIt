@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20161207164643_PhoneFix")]
+    partial class PhoneFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
@@ -39,13 +40,9 @@ namespace FinalProject.Migrations
                     b.Property<string>("State")
                         .IsRequired();
 
-                    b.Property<string>("UserId");
-
                     b.Property<int>("ZIP");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Finders");
                 });
@@ -59,8 +56,6 @@ namespace FinalProject.Migrations
                         .IsRequired();
 
                     b.Property<int>("FinderId");
-
-                    b.Property<DateTime>("FoundOn");
 
                     b.Property<bool>("IsNotClaimed");
 
@@ -227,16 +222,9 @@ namespace FinalProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Finder", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("Item", b =>
                 {
-                    b.HasOne("Finder", "Name")
+                    b.HasOne("Finder", "Finder")
                         .WithMany("Items")
                         .HasForeignKey("FinderId")
                         .OnDelete(DeleteBehavior.Cascade);

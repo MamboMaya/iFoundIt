@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20161208173221_fixSecretDetails2")]
+    partial class fixSecretDetails2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");
@@ -59,8 +60,6 @@ namespace FinalProject.Migrations
                         .IsRequired();
 
                     b.Property<int>("FinderId");
-
-                    b.Property<DateTime>("FoundOn");
 
                     b.Property<bool>("IsNotClaimed");
 
@@ -236,7 +235,7 @@ namespace FinalProject.Migrations
 
             modelBuilder.Entity("Item", b =>
                 {
-                    b.HasOne("Finder", "Name")
+                    b.HasOne("Finder", "Finder")
                         .WithMany("Items")
                         .HasForeignKey("FinderId")
                         .OnDelete(DeleteBehavior.Cascade);

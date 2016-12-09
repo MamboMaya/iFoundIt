@@ -1,14 +1,16 @@
 <div class="menu">
-    <a href="/" class="logo">My Site</a>
+    <a href="/" class="logo">iFoundIt</a>
 
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="contact">Contact</a></li>
+        @if (SignInManager.IsSignedIn(User)) {
+            <li><a href="finder/1">My Account</a></li>
+        }
         @if (SignInManager.IsSignedIn(User)) {
             <li>
-                <form asp-controller="Account" asp-action="Logout">
-                    <button type="submit">logout</button>
+                <form asp-controller="Home" asp-action="Logout">
+                    <button type="submit">Logout</button>
                 </form>
             </li>
             <li>
@@ -16,7 +18,7 @@
             </li>
         } else {
             <li>
-                <a href="/account/login">Register or Sign In</a>
+                <a href="login">Login or Register</a>
             </li>
         }
     </ul>

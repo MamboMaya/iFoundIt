@@ -51,7 +51,7 @@ public class Repo<T> : IRepository<T> where T : class, HasId {
     public T Create(T item){
         dbtable.Add(item);
         db.SaveChanges();
-        return table.FirstOrDefault(x => x.Id == item.Id);
+        return table.First(x => x.Id == item.Id);
     }
 
     public IEnumerable<T> Read(){

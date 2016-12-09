@@ -1,0 +1,16 @@
+@model IEnumerable<Item>
+
+    <h3>Lost items:</h3>
+
+<hr>
+<div asp-validation-summary="All"></div>
+
+<div class="grid grid-1-400">
+    @foreach(var item in Model){
+        <a href="/item/@item.Id">
+            <h5>@item.Description</h5>
+            <h5>@item.Finder</h5>
+            <h5>@item.FoundOn</h5>
+        </a>
+    }
+</div>
