@@ -88,7 +88,7 @@ public class HomeController : Controller
     }
     
     [HttpGet("finder/{id}")]
-    public async Task<IActionResult> Finder(int id){
+    public IActionResult Finder(int id){
         Finder item = finder.Read(id);
         if(item == null) return NotFound();
         return View("Finder", item);
@@ -114,15 +114,17 @@ public class HomeController : Controller
     [HttpGet("item/{id}")]
     [AllowAnonymous]
 
-    public async Task<IActionResult> SingleItem(int id) {
+    public IActionResult SingleItem(int id) {
         var x = item.Read(id);
         return View("SingleItem", x);
     }
 
     [HttpGet("search")]
     [AllowAnonymous]
-
-    public IActionResult SearchScreen() => View("Search");
+    public IActionResult SearchScreen(){
+        
+        return View("Search", db.Items.ToList());
+    }   
    
     [HttpPost("logout")]
     [ValidateAntiForgeryToken]
