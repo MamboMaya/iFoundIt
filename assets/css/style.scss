@@ -5,15 +5,20 @@
     box-sizing: border-box;
     background-color:lightgrey;
 }
-
+.menu{
+    display: inline-block;
+    text-align: center;
+}
 .grid {
     font-size: 0;
-    text-align: justify;
+    text-align: center;
 
     & > * {
         display: inline-block;
         font-size: medium;
         width: 100%;
+        text-align: center;
+        padding: 5rm;
     }
 
     &:after {
