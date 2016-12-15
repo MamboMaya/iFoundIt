@@ -10,7 +10,7 @@ namespace FinalProject.Migrations
     [Migration("20161207164643_PhoneFix")]
     partial class PhoneFix
     {
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");

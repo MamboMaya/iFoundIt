@@ -13,16 +13,16 @@
     <div>
         <label asp-for="Description" />
         <input type="text" asp-for="Description" >
+        <input type="hidden" asp-for="FinderId" value="@Model.FinderId" >
     </div>
 
-<div>
-    <p>The following details can only be seen by the Finder. Feel free to be as descriptive as possible in order to ensure the right item is being identified.</p>
-</div>
+    @*<div>
+        <p>The following details can only be seen by the Finder. Feel free to be as descriptive as possible in order to ensure the right item is being identified.</p>
+    </div>
+
     <div>
         <input asp-for="FinderId" value="@Model.FinderId" hidden>
-        <input asp-for="Name" value="@Model.Finder" hidden>
-        <!--<label asp-for="SecretDetails" />-->
-        <!--<input asp-for="SecretDetails">-->
-    </div>    
+        <input asp-for="Finder.Name" value="@Model.Finder.Name" hidden>
+    </div>*@
     <button type="submit"> Post!</button>
 </form>

@@ -10,7 +10,7 @@ namespace FinalProject.Migrations
     [Migration("20161206205828_model_change")]
     partial class model_change
     {
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");

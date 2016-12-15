@@ -1,14 +1,29 @@
 @model IEnumerable<Item>
 
-    <h3>Lost items:</h3>
+    <h2>Lost items:</h2>
 
 <hr>
+@if(Model.Count() != 0)
+{
+    using (Html.BeginForm("SearchResult", "Home", FormMethod.Post))
+    {
+        <input id="SearchResult" type="text" name="query" />
+        <button type="submit"> Search</button>
+    }
+@*<form asp-controller="Home" asp-action="SearchResult" method="POST">
+    <input type="text" asp-for="query">
+    <button type="submit"> search muthafucka!</button>
+</form>*@
+    <div id="ItemSearch">
+        @Html.Partial("SearchResult")
+    </div>
+    }
 <div class="grid grid-2-400 grid-3-1024">
     @foreach(var item in Model ){
         <a href="/item/@item.Id">
-            <h5>@item.Description</h5>
-            <h5>@item.Finder</h5>
-            <h5>@item.FoundOn</h5>
+            <h4>@item.Description</h4>
+            <h6>@item.Finder</h6>
+            <h6>@item.FoundOn</h6>
         </a>
     }
 </div>

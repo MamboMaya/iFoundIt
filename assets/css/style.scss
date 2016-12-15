@@ -1,11 +1,15 @@
 @import "../../node_modules/normalize.css/normalize.css";
 @import "../../node_modules/typeplate-starter-kit/dist/css/typeplate.css";
+@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+
+
 
 *, *:before, *:after {
     box-sizing: border-box;
     background-color:lightgrey;
+    
 }
-.menu{
+.menu {
     display: inline-block;
     text-align: center;
 }
@@ -39,6 +43,7 @@
 }
 
 @mixin grid_r 1, 400;
+@mixin grid_r 1, 1024;
 @mixin grid_r 2, 400;
 @mixin grid_r 2, 800;
 @mixin grid_r 3, 600;
@@ -49,4 +54,5 @@
 body {
     color: darkslategrey;
     text-align: center;
+    text-decoration: none;
 }

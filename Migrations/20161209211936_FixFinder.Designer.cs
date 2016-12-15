@@ -10,7 +10,7 @@ namespace FinalProject.Migrations
     [Migration("20161209211936_FixFinder")]
     partial class FixFinder
     {
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");

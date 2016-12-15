@@ -119,10 +119,11 @@ let configs = [
           loader: extract_css.extract('css?sourceMap&minimize')
         },
         {
-          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
           loader: 'url-loader?limit=100000',
         },
       ])
+      
     },
   },
 ]

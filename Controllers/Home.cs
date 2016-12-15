@@ -49,7 +49,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Login([FromForm] LoginVM user){
         string result = await auth.Login(user.Email, user.Password);
         if(result == null) { 
-            return Redirect("/finder/{id}");
+        return Redirect("/finder/1"); //THIS LEADS BACK TO MyHouse ACCOUNT PAGE AT ALL TIMES!!    
         }
         ModelState.AddModelError(" ", result);
         return View("LoginOrRegister", user);
@@ -96,10 +96,10 @@ public class HomeController : Controller
 
     [HttpPost("finder/{id}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> PostNewItem([FromForm] Item i, int id){
-        i.Finder = null;
-        string name = (await auth.GetUser(HttpContext))?.Email ?? "NOT PROVIDED";
-        //i.Finder = new Finder {Name = name};       //THIS DOES NOT APPLY TO THIS PROJECT. THE FINDER IS POSTER
+    public IActionResult PostNewItem([FromForm] Item i, int id){
+        // i.Finder = null;
+        // string name = (await auth.GetUser(user.Name));
+        // i.Finder = new Finder {Name = name};       //THIS DOES NOT APPLY TO THIS PROJECT. THE FINDER IS POSTER
 
         TryValidateModel(i);
 
@@ -119,12 +119,28 @@ public class HomeController : Controller
         return View("SingleItem", x);
     }
 
+    // [HttpGet("search")]
+    // [AllowAnonymous]
+    // public IActionResult SearchScreen(){
+        
+    //     return View("Search", db.Items.ToList());
+    // }   
+
     [HttpGet("search")]
     [AllowAnonymous]
-    public IActionResult SearchScreen(){
-        
+    public IActionResult Search(string query){
         return View("Search", db.Items.ToList());
-    }   
+    }
+
+
+    [HttpPost("search/results")]
+    [AllowAnonymous]
+    public IActionResult SearchResult([FromForm]string query){
+        // List<Item> Items2 = new List<Item>();
+        var a = db.Items.Where(x=>x.Description==query).ToList();
+            a.Log();
+            return View("SearchResult", a);
+    }
    
     [HttpPost("logout")]
     [ValidateAntiForgeryToken]

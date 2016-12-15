@@ -10,7 +10,7 @@ namespace FinalProject.Migrations
     [Migration("20161208173221_fixSecretDetails2")]
     partial class fixSecretDetails2
     {
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1");

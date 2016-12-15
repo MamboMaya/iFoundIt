@@ -11,19 +11,20 @@
 <h6>@Model.Email</h6>
 <hr>
 
-@if(@Model.Items.Count()!=0) {
+@if(Model.Items.Count() != 0) {
     <h5> Check out our lost items: </h5>
     <ul>
         @foreach(var m in @Model.Items){
-           <a href="/item/@m"><li>@m.Description</li></a>
+           <a href="/item/@m.Id"><li>@m.Description</li></a>
         }
     </ul>
 } else {
     <p>@Model.Name does not have any lost items at the moment.</p>
 }
+
 <hr>
 <div asp-validation-summary="All"></div>
-    @Html.Partial("PostNewItem", new Item{ Finder = @Model})
+    @Html.Partial("PostNewItem", new Item{ FinderId = @Model.Id, Finder = @Model })
 
 <hr>
 

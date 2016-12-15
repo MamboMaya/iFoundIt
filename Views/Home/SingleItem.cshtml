@@ -1,7 +1,13 @@
 @model Item
 
 <div asp-validation-summary="All"></div>
-<h4>Is this yours?</h4>
-<h6>@Model.Description</h6>
-<p>Found On - @Model.FoundOn</p>
-    <p>Found By- @Model.FinderId</p>
+<h3>We recently found this item...</h3>
+<h6><em>Description:</em> @Model.Description</h6>
+<p><em>Found On -</em> @Model.FoundOn</p>
+<p><em>Found By-</em> <a href="/finder/@Model.FinderId">@Model.Finder.Name</a></p>
+
+<div>
+    <h3> Is it yours?</h3>
+    <h6> If YES, give <a href="/finder/@Model.FinderId">@Model.Finder.Name</a> a call/email to confirm and arrange a pickup time.</h6>
+    <h6> If NO, keep <a href="/search">searching</a>. We're hopeful it will turn up sooner than later.</h6>
+</div>

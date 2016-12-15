@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(DB))]
-    [Migration("20161205213217_init")]
-    partial class init
+    [Migration("20161213205438_removing_user")]
+    partial class removing_user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,8 @@ namespace FinalProject.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("Phone");
+                    b.Property<string>("Phone")
+                        .IsRequired();
 
                     b.Property<string>("State")
                         .IsRequired();
@@ -55,6 +56,8 @@ namespace FinalProject.Migrations
                         .IsRequired();
 
                     b.Property<int>("FinderId");
+
+                    b.Property<DateTime>("FoundOn");
 
                     b.Property<bool>("IsNotClaimed");
 

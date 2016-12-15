@@ -1,12 +1,12 @@
-<div class="menu">
-    <h2><a href="/" class="logo">iFoundIt</a></h2>
+<div class="menu grid-1-1024">
+@*    <h2><a href="/" class="logo">iFoundIt</a></h2>*@
 
     <ul>
         <a href="/">Home</a>
-        <a href="contact">Contact</a>
+        <a href="/contact">Contact</a>
         @if (SignInManager.IsSignedIn(User)) {
-            <a href="finder/1">My Account</a>
-        }
+            <a href="/finder/1">My Account</a>
+        } 
         @if (SignInManager.IsSignedIn(User)) {
             
                 <form asp-controller="Home" asp-action="Logout">
