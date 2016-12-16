@@ -1,26 +1,21 @@
 <div class="menu grid-1-1024">
 @*    <h2><a href="/" class="logo">iFoundIt</a></h2>*@
-
-    <ul>
-        <a href="/">Home</a>
+    <a href="/">Home</a>
         <a href="/contact">Contact</a>
         @if (SignInManager.IsSignedIn(User)) {
-            <a href="/finder/1">My Account</a>
+           <a href="/finder/1">My Account</a>
         } 
         @if (SignInManager.IsSignedIn(User)) {
             
-                <form asp-controller="Home" asp-action="Logout">
+               <div class="logout"> <form asp-controller="Home" asp-action="Logout">
                     <button type="submit">Logout</button>
-                </form>
+                </form></div>
             
-            <p>
-                Hello @UserManager.GetUserName(User)!
-            </p>
         } else {
             <p>
                 <a href="login">Login or Register</a>
             </p>
         }
-    </ul>
+    
 </div>
 <hr>
