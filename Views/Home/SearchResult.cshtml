@@ -1,5 +1,23 @@
 @model IEnumerable<Item>
 
+<h4>We recently found this item...</h4>
+<div class="singleitem">
+    <h2> green scarf</h2>
+    <p><em>Found On -</em> 12-10-2016</p>
+    <p><em>Found By-</em> <a href="/finder/1">MyHouse</a></p>
+</div>
+<div>
+    <h3> Is it yours?</h3>
+    <h6> If YES, give <a href="/finder/1">MyHouse</a> a call/email to confirm and arrange a pickup time.</h6>
+    <h6> If NO, keep <a href="/search">searching</a>. We're hopeful it will turn up sooner than later.</h6>
+</div>
+
+@*<div asp-validation-summary="All"></div>
+    <h3>We recently found this item...</h3>
+    <h6><em>Description:</em> @Model.Description</h6>
+    <p><em>Found On -</em> @Model.FoundOn</p>
+    <p><em>Found By-</em><a href="/finder/@Model.FinderId">@Model.Finder.Name</a></p>
+
     @*<p>
         Search Result:
     </p>

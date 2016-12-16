@@ -88,6 +88,7 @@ public class HomeController : Controller
     }
     
     [HttpGet("finder/{id}")]
+    [AllowAnonymous]
     public IActionResult Finder(int id){
         Finder item = finder.Read(id);
         if(item == null) return NotFound();
@@ -133,13 +134,13 @@ public class HomeController : Controller
     }
 
 
-    [HttpPost("search/results")]
+    [HttpPost("item/16")]
     [AllowAnonymous]
     public IActionResult SearchResult([FromForm]string query){
         // List<Item> Items2 = new List<Item>();
-        var a = db.Items.Where(x=>x.Description==query).ToList();
-            a.Log();
-            return View("SearchResult", a);
+        // var a = db.Items.Where(x=>x.Description==query).ToList();
+            // a.Log();
+            return View("SearchResult");
     }
    
     [HttpPost("logout")]

@@ -1,5 +1,6 @@
 @model Finder
 
+ @if (SignInManager.IsSignedIn(User)) {
 <div><h4>Account Home:</h4></div>
 <hr>
 <h1>@Model.Name</h1>
@@ -29,3 +30,28 @@
 <hr>
 
 <p>Contact @Model.Name to claim any of the listed items.</p>
+ } else {
+     <div><h4>Account Home:</h4></div>
+<hr>
+<h1>@Model.Name</h1>
+<h6>@Model.Address</h6>
+<h6>@Model.City</h6>
+<h6>@Model.State</h6>
+<h6>@Model.ZIP</h6>
+<h6>@Model.Phone</h6>
+<h6>@Model.Email</h6>
+<hr>
+
+@if(Model.Items.Count() != 0) {
+    <h5> Check out our lost items: </h5>
+    <ul>
+        @foreach(var m in @Model.Items){
+           <a href="/item/@m.Id"><li>@m.Description</li></a>
+        }
+    </ul>
+} else {
+    <p>@Model.Name does not have any lost items at the moment.</p>
+}
+
+<hr>
+ }

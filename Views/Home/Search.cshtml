@@ -14,16 +14,16 @@
     <input type="text" asp-for="query">
     <button type="submit"> search muthafucka!</button>
 </form>*@
-    <div id="ItemSearch">
+    @*<div id="ItemSearch">
         @Html.Partial("SearchResult")
-    </div>
+    </div>*@
     }
 <div class="grid grid-2-400 grid-3-1024">
     @foreach(var item in Model ){
         <a href="/item/@item.Id">
             <h4>@item.Description</h4>
             <h6>@item.Finder</h6>
-            <h6>@item.FoundOn</h6>
+            <h6>12-10-2016</h6>
         </a>
     }
 </div>
